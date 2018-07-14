@@ -1,0 +1,57 @@
+.\" Manpage for httpman.
+.\" Contact themanhimself@sgregoratto.me to correct errors or typos.
+
+.TH HTTPMAN 1 "14 July 2018" "1.0"
+.SH NAME
+httpman \- create manpages for HTTP status codes
+.SH SYNOPSIS
+.B httpman
+.RB [ -ha ]
+[code ...]
+.SH DESCRIPTION
+httpman produces information on HTTP status codes in troff markup.
+It is meant to me used with
+.B man(1)
+,
+.B nroff(1)
+or
+.B groff(1)
+to produce legible documentation.
+All codes passed are printed in numerical order.
+.SH OPTIONS
+.TP
+.B -h
+print usage
+.TP
+.B -a
+prints information for every code
+.SH CUSTOMISATION
+httpman relies on a precompiled location string for httpman_codes.yml.
+By default this is at /etc/httpman_codes.yml, but it can be anywhere
+the user chooses. For a custom location, one must patch httpman.go
+and run make in the form:
+
+CFG_PREFIX=/my/path/here sudo make install
+
+An example patch file for httpman.go is provided in the git repo.
+.SH INFO
+Up-to-date versions of 
+.B httpman
+and this man page can be found at the upstream url:
+
+.I https://git.sgregoratto.me/The-King-of-Toasters/httpman
+
+A mirror on github is also available:
+
+.I https://github.com/The-King-of-Toasters/httpman
+.SH SEE ALSO
+.B groff(7)
+.SH BUGS/FEATURES
+If you believe you have found a bug in
+.B httpman 
+or you would like to add a feature, 
+then you can submit reports, pull-requests and patches at
+either the upstream url or on github.
+.SH AUTHORS
+Stephen Gregoratto 
+.I <themanhimself@sgregoratto.me>
