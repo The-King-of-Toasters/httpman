@@ -15,7 +15,7 @@ import (
 
 // YAMLFILE describes where the HTTP status code YAML file
 // is located. Should be patched per user needs
-const YAMLFILE string = "/tmp/tmp.j3fvd4Fd9d/code_descriptions.yml"
+const YAMLFILE string = "/etc/httpman_codes.yml"
 
 // global map to hold all status code info
 // when YAMLFILE is unmarshaled
@@ -70,8 +70,7 @@ func main() {
 	order(codes)
 }
 
-// sort an array of ints and Print each
-// one
+// sort an array of ints and Print each one
 func order(k []int) {
 	sort.Ints(k)
 	for _, v := range k {
