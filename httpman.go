@@ -5,97 +5,71 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"sort"
 	"strconv"
-	"strings"
 
+	"git.sgregoratto.me/The-King-of-Toasters/httpman/info"
 	"github.com/pborman/getopt/v2"
-	"gopkg.in/yaml.v2"
 )
 
 // YAMLFILE describes where the HTTP status code YAML file
 // is located. Should be patched per user needs
 const YAMLFILE string = "/etc/httpman_codes.yml"
 
-// global map to hold all status code info
-// when YAMLFILE is unmarshaled
-var CMAP = make(map[int]map[string]string)
-
-// getopt flags
-var all, help bool
+var (
+	Info                 *info.Info // Global Info
+	all, help, scd, json bool       // Getopt flags
+)
 
 func init() {
+	getopt.Flag(&all, 'a', "Print info on every code")
 	getopt.Flag(&help, 'h', "Print this help")
-	getopt.Flag(&all, 'a', "Print man page for every code")
+	// Formats
+	getopt.Flag(&scd, 's', "Print in scdoc format")
+	getopt.Flag(&json, 'j', "Print in json format")
+	getopt.Parse()
 
 	f, err := ioutil.ReadFile(YAMLFILE)
 	if err != nil {
 		critError("Could not read status code file. " +
 			"Check if YAMLFILE is correct.")
 	}
-	err = yaml.Unmarshal(f, &CMAP)
+	Info, err = info.NewInfo(f)
 	if err != nil {
 		critError("Could not parse status code file. " +
 			"Check if YAMLFILE is correctly formatted")
 	}
+	if scd {
+		Info.SetFormat(info.Scdoc)
+	} else if json {
+		Info.SetFormat(info.Json)
+	}
 }
 
 func main() {
-	getopt.Parse()
 	args := getopt.Args()
 	if (!all && len(args) == 0) || help {
 		getopt.PrintUsage(os.Stderr)
 		os.Exit(1)
 	}
-	
-	var codes []int
+
 	if all {
-		for k := range CMAP {
-			codes = append(codes, k)
-		}
+		Info.PrintAll()
 	} else {
+		var codes []int
 		for i := range args {
 			c, err := strconv.Atoi(args[i])
 			if err != nil {
 				error("code " + args[i] + " is not valid.")
 			}
 
-			if _, ok := CMAP[c]; !ok {
-				error("Cannot find code " + args[i] + " in YAMLFILE.")
-			} else {
+			if Info.Locate(c) {
 				codes = append(codes, c)
+			} else {
+				error("Cannot find code " + args[i] + " in YAMLFILE.")
 			}
 		}
+		Info.PrintCodes(codes)
 	}
-	order(codes)
-}
-
-// sort an array of ints and Print each one
-func order(k []int) {
-	sort.Ints(k)
-	for _, v := range k {
-		Print(v)
-	}
-}
-
-// Print takes a valid key in CMAP and prints its
-// associated values in man-page style
-// troff markup.
-func Print(c int) {
-	s := fmt.Sprintf(`.TH HTTPMAN 7
-.SH STATUS CODE
-.B %d
-- %s
-.SH CATEGORY
-%s
-.SH DESCRIPTION
-%s`,
-		c, CMAP[c]["message"],
-		CMAP[c]["category"],
-		CMAP[c]["description"])
-	// Escape all dashes
-	s = strings.Replace(s, "-", "\\-", -1)
-	fmt.Println(s)
 }
 
 // Simple error handler to avoid importing "errors".
