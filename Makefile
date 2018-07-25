@@ -2,9 +2,6 @@ CFG_PREFIX = /etc
 PREFIX = /usr/bin
 YAMLFILE = httpman_codes.yml
 
-export GOPATH=$(shell pwd)/.gopath
-export GOROOT=/usr/lib/go
-
 all: build
 
 clean:
