@@ -16,7 +16,7 @@ import (
 const YAMLFILE string = "/etc/httpman_codes.yml"
 
 var (
-	cinfo                 *info.Info // Global Info
+	cinfo                *info.Info // Global Info
 	all, help, scd, json bool       // Getopt flags
 )
 

@@ -17,7 +17,7 @@ type Info struct {
 	codes codemap
 }
 
-// NewInfo returns an initalised *Info set to
+// NewInfo returns an initialised *Info set to
 // ROFF format
 func NewInfo(y []byte) (*Info, error) {
 	i := Info{}
