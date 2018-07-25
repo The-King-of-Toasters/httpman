@@ -9,15 +9,19 @@ import (
 
 type fmtPrint func(int) string
 
+// Format is used as a type constant for
+// the print methods
 type Format int
 
+// The Formats below define which print method
+// a *Info will use
 const (
-	Roff Format = iota
-	Scdoc
-	Json
+	ROFF Format = iota
+	SCDOC
+	JSON
 )
 
-// prints all codes in
+// PrintAll prints all codes in
 // numerical order
 func (m *Info) PrintAll() {
 	keys := make([]int, len(m.codes))
@@ -29,15 +33,15 @@ func (m *Info) PrintAll() {
 	m.PrintCodes(keys)
 }
 
-// takes an array of valid codes
+// PrintCodes takes an array of valid codes
 // and prints them in numerical order
 func (m *Info) PrintCodes(codes []int) {
 	var s string
-	if m.fmt == Json {
+	if m.fmt == JSON {
 		s = m.jsonPrint(codes)
 	} else {
 		sort.Ints(codes)
-		if m.fmt == Scdoc {
+		if m.fmt == SCDOC {
 			s = m.fPrintf(m.scdPrint, codes)
 		} else {
 			s = m.fPrintf(m.roffPrint, codes)

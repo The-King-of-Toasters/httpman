@@ -16,12 +16,12 @@ import (
 const YAMLFILE string = "/etc/httpman_codes.yml"
 
 var (
-	Info                 *info.Info // Global Info
+	cinfo                 *info.Info // Global Info
 	all, help, scd, json bool       // Getopt flags
 )
 
 func init() {
-	getopt.Flag(&all, 'a', "Print info on every code")
+	getopt.Flag(&all, 'a', "Print cinfo on every code")
 	getopt.Flag(&help, 'h', "Print this help")
 	// Formats
 	getopt.Flag(&scd, 's', "Print in scdoc format")
@@ -33,15 +33,15 @@ func init() {
 		critError("Could not read status code file. " +
 			"Check if YAMLFILE is correct.")
 	}
-	Info, err = info.NewInfo(f)
+	cinfo, err = info.NewInfo(f)
 	if err != nil {
 		critError("Could not parse status code file. " +
 			"Check if YAMLFILE is correctly formatted")
 	}
 	if scd {
-		Info.SetFormat(info.Scdoc)
+		cinfo.SetFormat(info.SCDOC)
 	} else if json {
-		Info.SetFormat(info.Json)
+		cinfo.SetFormat(info.JSON)
 	}
 }
 
@@ -53,7 +53,7 @@ func main() {
 	}
 
 	if all {
-		Info.PrintAll()
+		cinfo.PrintAll()
 	} else {
 		var codes []int
 		for i := range args {
@@ -62,13 +62,13 @@ func main() {
 				error("code " + args[i] + " is not valid.")
 			}
 
-			if Info.Locate(c) {
+			if cinfo.Locate(c) {
 				codes = append(codes, c)
 			} else {
 				error("Cannot find code " + args[i] + " in YAMLFILE.")
 			}
 		}
-		Info.PrintCodes(codes)
+		cinfo.PrintCodes(codes)
 	}
 }
 
