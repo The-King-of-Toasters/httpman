@@ -9,59 +9,38 @@
 .\" Disable justification:
 .ad l
 .\" Generated content:
-.TH "HTTPMAN" "1" "2018-07-25"
-.P
+.TH "HTTPMAN" "1" "2018-07-26"
 .SH NAME
 httpman - manpages for HTTP status codes
-.P
 .SH SYNOPSIS
-.P
-\fBhttpman\fR [\fB-ha\fR] [code ...]
-.P
+httpman [\fB-ahjs\fR] [code ...]
 .SH DESCRIPTION
-httpman provides information about HTTP status codes in nroff format.
-It is meant to be used with \fBman\fR(1), \fBnroff\fR(1), or \fBgroff\fR(1). 
-All codes passed are printed in numerical order.
+httpman provides information about HTTP status codes in roff, \fBscdoc\fR(1)
+or JSON format.
+It is meant to be piped into \fBman\fR(1), \fBnroff\fR(1), \fBgroff\fR(1),
+\fBscdoc\fR(1) or \fBjq\fR(1) to be readable.
 .P
+All codes passed are printed in numerical order.
 .SH OPTIONS
 \fB-a\fR	prints information for every code
 .P
 \fB-h\fR	print usage
 .P
-\fB-j\fR    output information in JSON format
+\fB-j\fR	output information in JSON format
 .P
-\fB-s\fR    output information in \fBscdoc\fR(1) format
-.P
-.SH CUSTOMISATION
-.P
-httpman relies on a path for httpman_codes.yml to be precompiled.
-By default this is at /etc/httpman_codes.yml, but it can be anywhere
-the user chooses. For a custom location, one must patch httpman.go
-and run make in the form:
-.P
-CFG_PREFIX=/my/path/here sudo make install
-.P
-An example patch file for httpman.go is provided in the git repo.
-.P
+\fB-s\fR	output information in \fBscdoc\fR(1) format
 .SH INFO
-.P
 Up-to-date versions of \fBhttpman\fR and this man page can be found at
 the upsteam url, 
 \fIhttps://git.sgregoratto.me/The-King-of-Toasters/httpman\fR. 
 A mirror on github is also available at
 \fIhttps://github.com/The-King-of-Toasters/httpman\fR
-.P
 .SH SEE ALSO
-.P
-\fBgroff\fR(7)
-.P
+\fBgroff\fR(7), \fBscdoc\fR(1)
 .SH BUGS/FEATURES
-.P
 If you believe you have found a bug in \fBhttpman\fR
 or you would like to add a feature, 
 then you can submit reports, pull-requests and patches at
 either the upstream url or on github.
-.P
 .SH AUTHORS
-.P
 Stephen Gregoratto \fI<themanhimself@sgregoratto.me>\fR

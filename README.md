@@ -4,10 +4,8 @@
 [Link for gitea users](https://asciinema.org/a/191692) 
 
 `httpman` is your manpage for HTTP. It prints info about 
-HTTP status codes in troff markup, and can be piped into (n|g)roff for viewing.
-
-**NEW:** Output formats also include JSON and
-[scdoc](https://git.sr.ht/~sircmpwn/scdoc/)
+HTTP status codes in roff, scdoc and JSON formats, 
+and can be piped into (n|g)roff/jq for viewing.
 
 ## General use
 

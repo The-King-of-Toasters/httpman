@@ -1,6 +1,5 @@
-CFG_PREFIX = /etc
 PREFIX = /usr/bin
-YAMLFILE = httpman_codes.yml
+MAN1 = /usr/share/man/man1
 
 all: build
 
@@ -8,10 +7,15 @@ clean:
 	rm -rf httpman
 
 build:
-	go build httpman.go
+	go build
+
+man:
+	scdoc < httpman.1.scd > httpman.1
 
 install:
 	install -Dm755 httpman $(PREFIX)/httpman
-	install -Dm664 $(YAMLFILE) $(CFG_PREFIX)/$(YAMLFILE)
+	install -Dm644 httpman.1 $(MAN1)/httpman.1
 
 .PHONY: clean
+
+.SILENT: build clean man

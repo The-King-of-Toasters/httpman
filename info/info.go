@@ -1,17 +1,8 @@
 package info
 
-import "gopkg.in/yaml.v2"
+//import "gopkg.in/yaml.v2"
 
-type doc struct {
-	Category    string
-	Description string
-	Message     string
-}
-
-// Map type for holding status code info
-type codemap map[int]doc
-
-// Info holds a map containing all c
+// Info holds a map containing all
 type Info struct {
 	fmt   Format
 	codes codemap
@@ -19,17 +10,9 @@ type Info struct {
 
 // NewInfo returns an initialised *Info set to
 // ROFF format
-func NewInfo(y []byte) (*Info, error) {
-	i := Info{}
-	// Unmarshal and convert
-	cm := make(codemap)
-	err := yaml.Unmarshal(y, &cm)
-	if err != nil {
-		return nil, err
-	}
-	i.codes = cm
-	i.fmt = ROFF
-	return &i, nil
+func NewInfo() *Info {
+	i := Info{codes: cm, fmt: ROFF}
+	return &i
 }
 
 // Locate returns t/f if code c was found
