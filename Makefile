@@ -1,5 +1,6 @@
 PREFIX = /usr/bin
 MAN1 = /usr/share/man/man1
+LDFLAGS = -s -w
 
 all: build
 
@@ -7,7 +8,7 @@ clean:
 	rm -rf httpman
 
 build:
-	go build
+	go build -ldflags '$(LDFLAGS)'
 
 man:
 	scdoc < httpman.1.scd > httpman.1
